@@ -1,6 +1,6 @@
 class Enemy {
-  float xoff = random(1);
-  float yoff = random(1);
+  float xoff = random(10);
+  float yoff = random(10);
   PVector loc;
   EnemyLaserFire l;
   Enemy() {

@@ -5,12 +5,25 @@ class GameEnvironment {
   int gameState=0;
   int enemyCount = 10;
   int level =1;
+  ArrayList<PVector> stars;
   GameEnvironment() {
-
+    
+    stars= new ArrayList<PVector>();
     s=new Ship();
 
     loadEnemies(enemyCount);
+    
+    loadStars();
+    
   }
+  
+  void loadStars(){
+    
+    for(int c = 0; c<100;c++){
+      stars.add(new PVector(random(width), random(height), random(100)));
+    }  
+  }
+  
   void loadEnemies(int num) {
     e=new Enemy[num];
     for (int i=0; i<num; i++) {
@@ -19,6 +32,8 @@ class GameEnvironment {
   }
   void update() {
     if (gameState==1) {
+      processStars();
+      //showStars();
       for (int i=0; i<e.length; i++) {
 
         e[i].update(s);
@@ -53,6 +68,21 @@ class GameEnvironment {
       lives=10;
       enemyCount=10;
       level=1;
+    }
+  }
+  
+  void processStars(){
+    for(int c=0;c<stars.size();c++){
+      PVector l = stars.get(c);
+      float factor ;
+      factor=map(l.z,0,100,3,1);
+      l.x-=factor;  
+      //println(l.x);
+      if(l.x < 0){
+        l.x = width;
+        l.y = random(height);
+      }
+      circle(l.x, l.y, factor );
     }
   }
 
